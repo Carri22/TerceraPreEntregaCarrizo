@@ -1,0 +1,23 @@
+{% extends "AppHospital/padre.html" %}}
+
+{% block titulo %}
+Medicos
+{% endblock %}
+
+{% block contenido %}
+    <!--Aqui va lo que cambia, y lo asociado a esta vista-->
+    <section class="features-icons bg-light text-center">  
+        <div class="container">
+            <div class="row">
+                <h1>Medicos</h1>
+                <p>
+                    <ul>
+                        {% for medico in medicos %}
+                            <li>{{medico}}</li>
+                        {% endfor %}
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </section>>
+{% endblock %}
