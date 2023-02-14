@@ -1,37 +1,43 @@
 from django.shortcuts import redirect, render
 from AppHospital.models import Medico,Paciente,MedicoInterno
-from .forms import MedicoFormulario, ProfesorFormulario
+from .forms import MedicoFormulario
 from django.http import HttpResponse
 
 # Create your views here.
 def inicio(request):
-    return render(request,'AppHospital/inicio.html')
+    return render(request,'AppHospital/padre.html')
 
 def medico(request):
     return render(request,'AppHospital/medico.html')
 
 def medico_formulario(request):
-    mis_medico = Medico.objects.all()
+    
+    mis_medicos = Medico.objects.all()
+
+    #Aqui recibiremos toda la informacion enviada mediante el formulario
     if request.method == "POST":
         mi_formulario = MedicoFormulario(request.POST)
 
+        #Validamos que los datos correspondan a los esperados
         if mi_formulario.is_valid():
             informacion = mi_formulario.cleaned_data
-            medico = Medico(nombre = informacion['nombre'],especialidad=informacion['apellido'],especialidad=informacion['especialidad'])
+            medico = Medico(
+                nombre = informacion['nombre'],
+                apellido=informacion['apellido'],
+                especialidad=informacion['especialidad']
+                )
             medico.save()
-
-            nuevo_medico = {'nombre':informacion['nombre'],'apellido':informacion['apellido'],'especialidad':informacion['especialidad']}
-            return render(request, 'AppHospital/medico.html',{'formulario_medico': mi_formulario, 'nuevo_medico':nuevo_medico,'mis_medico':mis_medico})
+            return redirect('inicio')
 
     else:
+        #Inicializamos un formulario vacio para construir el HTML
         mi_formulario = MedicoFormulario()
-
-    return render(request, 'AppHospital/medico.html',{'formulario_medico':mi_formulario, 'mis_medico':mis_medico})
+    return render(request, 'AppHospital/medico-formulario.html',{'formulario_medico': mi_formulario, 'mis_medicos':mis_medicos})
 
 def busqueda_especialidad(request):
     return render(request, 'AppHospital/busqueda-especialidad.html')
 
-def buscar_medico(request):
+def buscar(request):
     if request.GET["especialidad"]:
         especialidad = request.GET["especialidad"]
         medicos = Medico.objects.filter(especialidad__icontains=especialidad)

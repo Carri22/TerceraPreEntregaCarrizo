@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Estoy buscando la especialidad {{especialidad}}</h2>
+    {% if medicos %}
+
+    <ul>
+        {% for medico in medicos %}
+        <li>{{ medico.especialidad }}:{{ medico.nombre }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% else %}
+        <p>No existe la especialidad {{especialidad}}</p>
+    {% endif %}
+</body>
+</html>
