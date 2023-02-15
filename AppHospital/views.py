@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render
 from AppHospital.models import Medico,Paciente,MedicoInterno
-from .forms import MedicoFormulario,PacienteFormulario
+from .forms import MedicoFormulario,PacienteFormulario,MedicoInternoFormulario
 from django.http import HttpResponse
 
-# Create your views here.
+#INICIO
 def inicio(request):
     #Retorna a la vista padre-inicio
     return render(request,'AppHospital/padre.html')
+
 
 #FUNCIONES DE MEDICO
 def medico(request):
@@ -56,15 +57,16 @@ def buscar(request):
           
     return HttpResponse(respuesta)
 
-#FUNCIONES DE PACIENTE
-def peciente(request):
-    #retorna a la vista paciente
-    return render(request,'AppHospital/peciente.html')
 
-def peciente_formulario(request):
+#FUNCIONES DE PACIENTE
+def paciente(request):
+    #retorna a la vista paciente
+    return render(request,'AppHospital/paciente.html')
+
+def paciente_formulario(request):
 
     #almacena en la variable todos los pacientes registrados 
-    mis_pecientes = Paciente.objects.all()
+    mis_pacientes = Paciente.objects.all()
 
     #Aqui recibiremos toda la informacion enviada mediante el formulario
     if request.method == "POST":
@@ -87,5 +89,38 @@ def peciente_formulario(request):
     else:
         #Inicializamos un formulario vacio para construir el HTML
         mi_formulario = PacienteFormulario()
-    return render(request, 'AppHospital/paciente-formulario.html',{'formulario_paciente': mi_formulario, 'mis_paciente':mis_pecientes})
+    return render(request, 'AppHospital/paciente-formulario.html',{'formulario_paciente': mi_formulario, 'mis_pacientes':mis_pacientes})
 
+
+#FUNCIONES DE INTERNO
+def medico_interno(request):
+    #retorna a la vista medico_interno
+    return render(request,'AppHospital/medico-interno.html')
+
+def medico_interno_formulario(request):
+
+    #almacena en la variable todos los medico_internos registrados 
+    mis_medico_internos = MedicoInterno.objects.all()
+
+    #Aqui recibiremos toda la informacion enviada mediante el formulario
+    if request.method == "POST":
+        mi_formulario = MedicoInternoFormulario(request.POST)
+
+        #Validamos que los datos correspondan a los esperados
+        if mi_formulario.is_valid():
+            informacion = mi_formulario.cleaned_data
+            #Crea el objeto medico interno con la informacion
+            medico_interno = MedicoInterno(
+                nombre = informacion['nombre'],
+                apellido=informacion['apellido'],
+                facultad=informacion['facultad']
+                )
+            #guarda el objeto en la base de datos
+            medico_interno.save()
+            #vuelve a redireccionar a la vista del formulario para poder seguir registrando medicos
+            return redirect('medico-interno-formulario')
+
+    else:
+        #Inicializamos un formulario vacio para construir el HTML
+        mi_formulario = MedicoInternoFormulario()
+    return render(request, 'AppHospital/medico-interno-formulario.html',{'formulario_medico_interno': mi_formulario, 'mis_medico_internos':mis_medico_internos})

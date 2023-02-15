@@ -8,7 +8,7 @@ class MedicoInterno(models.Model):
     facultad = models.CharField(max_length=30)
 
     def __str__(self) -> str:
-        return self.nombre + ' '+ str(self.apellido)
+        return self.nombre + ' '+ self.apellido+', Egresado de: '+self.facultad
 
 class Paciente(models.Model):
 

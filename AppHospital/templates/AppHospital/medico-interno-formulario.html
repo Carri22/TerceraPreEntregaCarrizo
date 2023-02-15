@@ -1,7 +1,7 @@
 {% extends "AppHospital/padre.html" %}
 
 {% block titulo %}
-Formulario - Agregar medico
+Formulario - Agregar medico-interno
 {% endblock %}
 
 {% block contenido %}
@@ -11,27 +11,24 @@ Formulario - Agregar medico
             <div class="row">
                 <div class="row align-items-start">
                     <div class="col">
-                        <h2>Lista de medicos registrados:</h2>
-                        {% for medico in mis_medicos %}
-                            <p>{{medico}}: {{medico.especialidad}}</p>
+                        <h2>Lista de medico internos registrados:</h2>
+                        {% for medico_interno in mis_medico_internos %}
+                            <p>{{medico_interno}}  {{medico_interno.email}}</p>
                         {% endfor %}
                             
-                        {% if formulario_medico.errors %}
+                        {% if formulario_medico_interno.errors %}
                         <p style="color: red;">Los datos son erroneos. Por favor reviselos</p>
                         {% endif %}
                     </div>
                     <div class="col">
-                        <form action="{% url 'medico-formulario' %}" method="post">
+                        <form action="{% url 'medico-interno-formulario' %}" method="post">
                             {% csrf_token %}
                             <table>
-                                {{ formulario_medico.as_table}}
+                                {{ formulario_medico_interno.as_table}}
                             </table>
                             <br>
                             <input class=" btn btn-success " type="submit" value="Enviar">
-                        </form>
-                        <br>
-                        <a class="btn btn-primary" href="{% url 'busqueda-especialidad' %}">Buscar medico</a>
-                        
+                        </form> 
                     </div>
                   </div>
                 </div>
