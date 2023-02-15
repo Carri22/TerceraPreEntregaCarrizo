@@ -1,23 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>Estoy buscando la especialidad {{especialidad}}</h2>
-    {% if medicos %}
+{% extends "AppHospital/padre.html" %}}
 
-    <ul>
-        {% for medico in medicos %}
-        <li>{{ medico.especialidad }}:{{ medico.nombre }}</li>
-        {% endfor %}
-    </ul>
-    
+{% block titulo %}
+Medicos
+{% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-6">
+                {% if medicos %}
+            <h2>Los {{especialidad}}s que estan registrados son los siguientes:</h2>
+             <ul>
+                {% for medico in medicos %}
+        
+                <li>{{ medico.especialidad }}:{{ medico.nombre }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary"><a style="text-decoration:none; color: azure;" href="{% url 'busqueda-especialidad' %}">Volver a buscar medico</a></button>
+        </div>
+            
     {% else %}
-        <p>No existe la especialidad {{especialidad}}</p>
+        <p>No existen mdicos con la especialidad {{especialidad}}</p>
     {% endif %}
-</body>
-</html>
+    </div>
+</div>
+
+    
+{% endblock %}

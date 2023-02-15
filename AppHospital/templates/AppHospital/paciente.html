@@ -1,0 +1,19 @@
+{% extends "AppHospital/padre.html" %}}
+
+{% block titulo %}
+Pacientes
+{% endblock %}
+
+{% block contenido %}
+    <!--Aqui va lo que cambia, y lo asociado a esta vista-->
+    <section class="features-icons bg-light text-center">  
+        <div class="container">
+            <div class="row">
+                <h1>Pacientes</h1>
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary"><a style="text-decoration:none; color: azure;" href="{% url 'paciente-formulario' %}">Registrar paciente</a></button>
+                </div>
+            </div>
+        </div>
+    </section>>
+{% endblock %}
